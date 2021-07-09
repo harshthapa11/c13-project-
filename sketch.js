@@ -1,48 +1,67 @@
-var Path
-var jake
-var right_boundary,left_boundary
-
-
+var garden,rabbit;
+var gardenImg,rabbitImg;
+var Apples
+var leaves
 function preload(){
-  //pre-load images
-  pathImg = loadImage("path.png")
-  jakeImg = loadAnimation("Jake1.png","Jake2.png","jake3.png","jake4.PNG","jake5.png",)
-
+  gardenImg = loadImage("garden.png");
+  rabbitImg = loadImage("rabbit.png");
+  ApplesImg = loadImage("apple.png");
+  leavesImg = loadImage("leaf.png");
 }
 
 function setup(){
-  createCanvas(400,400);
-  //create sprites here
-  path=createSprite(200,200)
-  path.addImage("path",pathImg)
-  path.velocityY = 4
-  path.scale=1.2
   
-  jake=createSprite(200,350,20,20)
-  jake.addAnimation("jake",jakeImg)
-
-  left_boundary= createSprite(0,300,100,600)
-  left_boundary.visible=false;
-
-  right_boundary=createSprite(390,300,80,600)
-  right_boundary.visible=false;
-
+  createCanvas(400,400);
  
+// Moving background
+garden=createSprite(200,200);
+garden.addImage(gardenImg);
+
+//creating boy running
+rabbit = createSprite(180,340,30,30);
+rabbit.scale =0.09;
+rabbit.addImage(rabbitImg);
 }
+
+
 
 function draw() {
   background(0);
+
  
-  if (path.y > 400){
-    path.y = height/2}
+ 
+  rabbit.x=World=mouseX
+  
+  edges= createEdgeSprites();
+  rabbit.collide(edges);
 
-    jake.x=World.mouseX
+  var select_sprites = Math.round(random(1,2));
 
-    jake.collide(left_boundary);
-    jake.collide(right_boundary);
+  if (frameCount % 80 === 0){
+    if( select_sprites == 1){
+      createApples()
+    }
+  else{
+    createleaves()
+  }
+  }
 
-    edges=createEdgeSprites()
-    jake.collide(edges)
+ 
+  drawSprites();
 
-  drawSprites()
+}
+
+function createApples(){
+  Apples=createSprite(random(50,350),40,10,10);
+  Apples.addImage(ApplesImg);
+  Apples.scale=0.075;
+  Apples.velocityY=2;
+  Apples.lifetime=150;
+}
+function  createleaves(){
+  leaves = createSprite(random(50,350),40,10,10);
+  leaves.addImage(leavesImg);
+  leaves.scale=0.075;
+  leaves.velocityY=2;
+  leaves.lifetime=150;
 }
